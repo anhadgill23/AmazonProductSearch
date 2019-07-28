@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_26_180644) do
+ActiveRecord::Schema.define(version: 2019_07_28_213948) do
 
   create_table "products", force: :cascade do |t|
     t.string "asin"
@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 2019_07_26_180644) do
     t.string "dimensions"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "name"
   end
 
 end
