@@ -1,7 +1,6 @@
 class ProductsController < ApplicationController
-  before_action :set_product, only: [:show]
-
   def show
+    @product = Product.find(params[:id])
   end
 
   def new
@@ -13,12 +12,12 @@ class ProductsController < ApplicationController
     @product = Product.new(product_params)
 
     # make api call
-    @product_info = Scraper.get_product_info(params[:product][:asin])
+    @scraper_data = Scraper.get_product_info(params[:product][:asin])
 
-    @product.name = @product_info[:name]
-    @product.category = @product_info[:category]
-    @product.rank = @product_info[:rank]
-    @product.dimensions = @product_info[:dimensions]
+    @product.name = @scraper_data[:name]
+    @product.category = @scraper_data[:category]
+    @product.rank = @scraper_data[:rank]
+    @product.dimensions = @scraper_data[:dimensions]
 
     respond_to do |format|
       if @product.save
@@ -32,10 +31,6 @@ class ProductsController < ApplicationController
   end
 
   private
-
-  def set_product
-    @product = Product.find(params[:id])
-  end
 
   def product_params
     params.require(:product).permit(:asin)

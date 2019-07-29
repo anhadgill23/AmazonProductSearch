@@ -2,10 +2,10 @@ class Scraper
   require 'httparty'
   require 'nokogiri'
 
-  # Generic method to fetch and parse HTML document
+  # Generic method to fetch HTML document
   def self.fetch_data(url)
     headers = {
-      "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/601.5.17 (KHTML, like Gecko) Version/9.1 Safari/601.5.17"
+      "User-Agent": 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/601.5.17 (KHTML, like Gecko) Version/9.1 Safari/601.5.17'
     }
     Nokogiri::HTML(HTTParty.get(url, headers: headers))
   end
@@ -13,33 +13,39 @@ class Scraper
   # specify URL to making API call to
   def self.get_product_info(asin)
     url = "https://www.amazon.com/dp/#{asin}"
-    parsed_html = fetch_data(url)
+    response = fetch_data(url)
+    return response if response.nil?
+
     {
-      name: name(parsed_html),
-      category: category(parsed_html),
-      rank: rank(parsed_html),
-      dimensions: dimensions(parsed_html)
+      name: name(response),
+      category: category(response),
+      rank: rank(response),
+      dimensions: dimensions(response)
     }
   end
 
   # Search product name by CSS
   def self.name(data)
-    data.css('#productTitle').first.children.text.lstrip!.rstrip!.squish
+    name = data.css('#productTitle')
+    name.present? ? name.first.try(:children).try(:text).lstrip!.rstrip!.squish : nil
   end
 
   # Search for category by CSS
   def self.category(data)
-    data.css('.a-color-tertiary').first.children.text.lstrip!.rstrip!.squish
+    category = data.css('.a-color-tertiary')
+    category.present? ? category.first.try(:children).try(:text).lstrip!.rstrip!.squish : nil
   end
 
   # Search for rank by CSS
   def self.rank(data)
-    data.css('.zg_hrsr_item ,.zg_hrsr_rank').first.children.text.lstrip!.rstrip!.squish
+    rank = data.css('#SalesRank')
+    rank.present? ? rank.first.try(:children).try(:text).match(/(#)\d+\s[\w\s]+/)[0].rstrip! : nil
   end
 
   # Search for dimensions by CSS
   def self.dimensions(data)
-    data.css('.size-weight+ .size-weight .value').first.children.text
+    dimensions = data.css('.size-weight+ .size-weight .value')
+    dimensions.present? ? dimensions.try(:children).try(:text) : nil
   end
 end
 
