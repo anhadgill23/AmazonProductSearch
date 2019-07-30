@@ -8,7 +8,6 @@ class ProductsController < ApplicationController
   end
 
   def create
-    # B002QYW8LW
     @product = Product.new(product_params)
 
     # make api call
