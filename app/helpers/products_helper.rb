@@ -1,5 +1,5 @@
 module ProductsHelper
-  def check_for_nil(attribute)
+  def display_field(attribute)
     attribute.present? ? attribute : 'Not found'
   end
 end
