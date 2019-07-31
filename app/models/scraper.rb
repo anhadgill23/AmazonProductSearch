@@ -2,7 +2,6 @@ class Scraper
   require 'httparty'
   require 'nokogiri'
 
-  # Generic method to fetch HTML document
   def self.fetch_data(url)
     # setting user agent so prevent requests being blocked by Amazon
     headers = {
@@ -39,11 +38,12 @@ class Scraper
 
   # Search for rank by CSS
   def self.rank(data)
-    # searched for css element, then used regex to find the rank. I could do that because the rank followed a specific pattern
     if data.css('#SalesRank').present?
-      data.css('#SalesRank').first.try(:text).match(/(#)[\d,]+\sin\s[\w\s]+/)[0].rstrip!
+      data.css('#SalesRank').first.try(:text).match(/(#)[\d,]+\sin\s[\w\s,&]+/)[0].rstrip!
     elsif data.css('#prodDetails').present?
       data.css('#prodDetails').try(:text).match(/(#)[\d,]+\sin\s[\w\s&]+/)[0].rstrip!
+    elsif data.css('#descriptionAndDetails').present?
+      data.css('#descriptionAndDetails').match(/(#)[\d,]+\sin\s[\w\s&]+/)[0].rstrip!
     end
   end
 
@@ -53,6 +53,8 @@ class Scraper
       data.css('.size-weight+ .size-weight .value').try(:children).try(:text)
     elsif data.css('#prodDetails').present?
       data.css('#prodDetails').try(:text).match(/[\d\."']+\sx\s[\d\."']+\sx\s[\d\."']+\s\w+/)[0]
+    elsif data.css('#descriptionAndDetails').present?
+      data.css('#descriptionAndDetails').try(:text).match(/[\d\."']+\sx\s[\d\."']+\sx\s[\d\."']+\s\w+/)[0]
     end
   end
 end

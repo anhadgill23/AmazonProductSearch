@@ -8,9 +8,17 @@ RSpec.describe Product, type: :model do
     end
   end
 
-  context 'scope tests' do
-    before(:each) do
-      
+  context 'Insert data' do
+    subject {
+      Product.new(
+        asin: 'XYZ',
+        category: 'Lorem ipsum',
+        dimensions: 'ABC',
+        rank: 'PQR'
+      )
+    }
+    it 'is valid with valid attributes' do
+      expect(subject).to be_valid
     end
   end
 end

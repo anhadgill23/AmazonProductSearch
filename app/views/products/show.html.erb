@@ -2,27 +2,27 @@
 
 <p>
   <strong>Asin:</strong>
-  <%= @product.asin %>
+  <%= check_for_nil(@product.asin) %>
 </p>
 
 <p>
   <strong>Product Name:</strong>
-  <%= @product.name %>
+  <%= check_for_nil(@product.name) %>
 </p>
 
 <p>
   <strong>Category:</strong>
-  <%= @product.category %>
+  <%= check_for_nil(@product.category) %>
 </p>
 
 <p>
   <strong>Rank:</strong>
-  <%= @product.rank %>
+  <%= check_for_nil(@product.rank) %>
 </p>
 
 <p>
   <strong>Dimensions:</strong>
-  <%= @product.dimensions %>
+  <%= check_for_nil(@product.dimensions) %>
 </p>
 
 <%= link_to 'New Product', new_product_path %>
