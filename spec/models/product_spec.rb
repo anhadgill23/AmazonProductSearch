@@ -8,10 +8,11 @@ RSpec.describe Product, type: :model do
     end
   end
 
+
   context 'Insert data' do
     subject {
       Product.new(
-        asin: 'XYZ',
+        asin: 'B013WFNNZI',
         category: 'Lorem ipsum',
         dimensions: 'ABC',
         rank: 'PQR'
