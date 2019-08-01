@@ -3,7 +3,7 @@ class Scraper
   require 'nokogiri'
 
   def self.fetch_data(url)
-    # setting user agent so prevent requests being blocked by Amazon
+    # setting user agent to prevent requests being blocked by Amazon
     headers = {
       "User-Agent": 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/601.5.17 (KHTML, like Gecko) Version/9.1 Safari/601.5.17'
     }
