@@ -68,6 +68,6 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # Parsing data
-gem 'nokogiri', '~> 1.10', '>= 1.10.3'
+gem 'nokogiri', '~> 1.12'
 
 gem 'httparty', '~> 0.17.0'
